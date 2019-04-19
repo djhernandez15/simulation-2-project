@@ -12,12 +12,20 @@ export class Dashboard extends Component {
     };
   }
   componentDidMount() {
+    this.getHouses();
+  }
+
+  getHouses = () => {
     axios.get("/api/houses").then(response => {
       this.setState({
         houses: response.data
       });
     });
-  }
+  };
+
+  deleteHouse = id => {
+    axios.delete(`/api/houses/:${id}`).then(response => this.getHouses());
+  };
   render() {
     let houseCards = this.state.houses.map(house => {
       return (
@@ -28,6 +36,7 @@ export class Dashboard extends Component {
           state={house.state}
           zipcode={house.zipcode}
           key={house.id}
+          deleteHouse={this.deleteHouse}
         />
       );
     });

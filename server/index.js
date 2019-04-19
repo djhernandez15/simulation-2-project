@@ -16,7 +16,8 @@ massive(CONNECTION_STRING).then(db => {
 app.use(express.json());
 
 app.get("/api/houses", controller.getHouse);
-app.post('/api/houses', controller.addHouse)
+app.post("/api/houses", controller.addHouse);
+app.delete('/api/houses/:id', controller.deleteHouse)
 
 app.listen(PORT, () => {
   console.log(`Listening on Port ${PORT}`);

@@ -6,62 +6,38 @@ export class Wizard extends Component {
   constructor() {
     super();
 
-    this.state = {
-      name: "",
-      address: "",
-      city: "",
-      state: "",
-      zipcode: ""
-    };
-    this.handleChange = this.handleChange.bind(this);
+    this.state = {};
+
+    this.addHouse = this.addHouse.bind(this);
   }
 
   addHouse() {
     const { name, address, city, state, zipcode } = this.state;
-    axios.post("/api/houses", { name, address, city, state, zipcode }).then(
-      this.setState({
-        name: "",
-        address: "",
-        city: "",
-        state: "",
-        zipcode: ""
-      })
-    ).then(<Redirect to='/'/>)
+    axios
+      .post("/api/houses", { name, address, city, state, zipcode })
+      .then(response => {
+        this.setState({
+          name: response.data,
+          address: response.data,
+          city: response.data,
+          state: response.data,
+          zipcode: response.data
+        });
+      });
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    console.log(e.target.name);
   }
   render() {
     return (
       <div>
-        <form>
-          <label>
-            Name
-            <input onChange={this.handleChange} type="text" />
-          </label>
-          <label>
-            Address
-            <input onChange={this.handleChange} type="text" />
-          </label>
-          <label>
-            City
-            <input onChange={this.handleChange} type="text" />
-          </label>
-          <label>
-            State
-            <input onChange={this.handleChange} type="text" />
-          </label>
-          <label>
-            Zipcode
-            <input onChange={this.handleChange} type="text" />
-          </label>
-        </form>
-        Wizard
         <Link to="/">
           <button>Cancel</button>
         </Link>
+        {/* <Redirect to="/"> */}
+        <button onClick={this.addHouse}>Complete</button>
+        {/* </Redirect> */}
       </div>
     );
   }
